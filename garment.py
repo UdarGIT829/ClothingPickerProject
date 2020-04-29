@@ -19,15 +19,20 @@ class Garment:
 
 
 #---FUNCTIONS DEALING WITH GARMENT_TYPE---------------------------------------#
-    
+#ideally we want garments to be either 'top', 'bottom', or 'shoes'
+
     #changes garment type
     def changeType(self, garment_type):
         self.garment_type = garment_type
         print('Garment Type has been updated.')
         
-    #returns the type of garment
+    #prints the type of garment
     def checkGarment(self):
-        print(self.garment_Type)
+        print(self.garment_type)
+        
+    #returns the type of garment
+    def getGarment(self):
+        return self.garmet_type
 
 #---FUNCTIONS DEALING WITH NAME-----------------------------------------------#
     
