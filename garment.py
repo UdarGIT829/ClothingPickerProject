@@ -40,6 +40,10 @@ class Garment:
     def changeName(self, name):
         self.name = name
         print('Garment name has been updated.')
+        
+    #returns name
+    def getName(self):
+        return self.name
 
 #---FUNCTIONS DEALING WITH COLOURS--------------------------------------------#
     
