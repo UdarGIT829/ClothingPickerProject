@@ -8,18 +8,17 @@ Created on Tue Apr 28 16:50:42 2020
 
 class Garment:
     
-    def __init__(self, garment_type = 'shirt', name = 'def', colors = ['pri', 'sec', 'ter'], layer = 0, warmth = 0, clean = True):
+    def __init__(self, garment_type = 'top', name = 'def', layer = 0, warmth = 0, clean = True, color0 = "pri", color1 = "sec", color2 = "ter"):
         self.name = name
         self.garment_type = garment_type
-        self.colors = colors
+        self.colors = [color0, color1, color2]
         self.tags = []
         self.layer = 0
         self.warmth = 0
         self.clean = clean
 
-
 #---FUNCTIONS DEALING WITH GARMENT_TYPE---------------------------------------#
-#ideally we want garments to be either 'top', 'bottom', or 'shoes'
+ #ideally we want garments to be either 'top', 'bottom', or 'shoes'
 
     #changes garment type
     def changeType(self, garment_type):
@@ -32,8 +31,8 @@ class Garment:
         
     #returns the type of garment
     def getGarment(self):
-        return self.garmet_type
-
+        return self.garment_type
+    
 #---FUNCTIONS DEALING WITH NAME-----------------------------------------------#
     
     #Changes name.
@@ -41,7 +40,7 @@ class Garment:
         self.name = name
         print('Garment name has been updated.')
         
-    #returns name
+    #returns name1
     def getName(self):
         return self.name
 
@@ -62,6 +61,9 @@ class Garment:
         
 #---FUNCTIONS DEALING WITH LAYER  --------------------------------------------#
 #the bottom most layer is 0 should probaly not get higher than a 2
+# 0 = undershirt
+# 1 = shirt
+# 2 = sweater/jacket/coat/anything over a shirt
     
     #changes the layer value
     def changeLayer(self, layer):
@@ -102,8 +104,9 @@ class Garment:
     
     #sets the clothes as dirty and unusable without override
     def use(self):
-        print(self.name + ' has been washed.')
-        self.clean = False
+        if self.getGarment() != 'shoes':
+            print(self.name + ' is now dirty.')
+            self.clean = False
         
 #---FUNCTIONS DEALING WITH TAGS-----------------------------------------------#
     
@@ -115,34 +118,3 @@ class Garment:
     #will check all tags associated with garment
     def checkTag(self):
         print(self.tags)
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-    
