@@ -2,21 +2,9 @@
 from PIL import Image
 import math
 from collections import namedtuple
-#center = (250,250)
-#radius = 240
 pastFirstGray = 75
 oneIterationDark = 30
-x=0
-y=0
 fileImported = False
-global wheel
-global colorDictionary
-
-oldColorDict =     {'Magenta 1': [0,1], 'Magenta 2': [0,2], 'Magenta 3': [0,3],
-    'Blue 1': [90,1], 'Blue 2': [90,2], 'Blue 3': [90,3],
-    'Green 1': [180,1], 'Green 2': [180,2], 'Green 3': [180,3],
-    'Yellow 1': [270,1], 'Yellow 2': [270,2], 'Yellow 3': [270,3]
-    }#format of map will be  'name' : [degrees from 0 : number of iterations away (1-3)]
 
 def openFile(filename):# input string, return pillow image
     im = Image.open('gamut.png') # Input image file, source: https://github.com/jacksongabbard/Python-Color-Gamut-Generator/blob/master/gamut.png
