@@ -87,7 +87,7 @@ class Closet:
         for x in self.shoes:
             print(x.getName())
             
-#---WASHING THAT WASH---------------------------------------------------------#
+#---FUNCTIONS THAT WASH---------------------------------------------------------#
             
     #Sets all garments to clean = True 
     def wash(self):
