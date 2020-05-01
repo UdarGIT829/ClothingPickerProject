@@ -83,7 +83,7 @@ def initializeColors():
     center,wheel,maxIterDistance = openFile('gamut.png')
     colorDictionary = colorWheelImport(center, wheel,maxIterDistance)
     print(str(colorDictionary))
-    return True
+    return colorDictionary
 
 initializeColors()
 
