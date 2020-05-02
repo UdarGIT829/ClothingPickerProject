@@ -111,8 +111,14 @@ def closestColor(originalColor, colorDictionary):
         if sumDiff < difference:
             difference = sumDiff
             matchColor = existingColor
-    if matchColor == originalColor:
-        print(matchColor,": No match found")
+            if difference == 0:
+                break
+    if (matchColor == originalColor)&(difference != 0) :
+        print(matchColor,": No match found\n")
+    if difference != 0:
+        print("\tImperfect Match Found: ",originalColor, " >> ", matchColor, " by ", difference)
+    if difference ==0:
+        print("Perfect Match Found: ",originalColor)
     return matchColor
 
 initializeColors()
