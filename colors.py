@@ -11,30 +11,26 @@ fileImported = False
 def openFile(filename):# input string, return pillow image
     im = Image.open('gamut.png') # Input image file, source: https://github.com/jacksongabbard/Python-Color-Gamut-Generator/blob/master/gamut.png
     wheel = im.load() # use pillow library to read the image into an object
-    print("types: wheel= ", type(wheel),"|| im= ",type(im))
     center = (250,250) # set center to be half of width and height (500px, 500px)
     fileImported = True
     maxIterDistance = (int)((center[0]-pastFirstGray)/oneIterationDark)
-    print(maxIterDistance)
     return (center, wheel, maxIterDistance)
 
-#---COLOR-DICTIONARY-CREATION-------------------------------------------------#
+#---COLOR-DICTIONARY-CREATION--------------------------------------------------#
 def colorWheelImport(center, wheel,maxIterDistance): # using  pillow image, return new color dictionary
     denominator = 16
     colorDictionary = dict()
     for numerator in range(1,33):
-        print(numerator,"*PI / ",denominator)
         for distance in range(1,maxIterDistance+1):
             newLocation = (((numerator*math.pi)/(denominator)), distance) # establish x,y coords based on radial coords
             newColor = (colorPicker(newLocation[0], newLocation[1],wheel)) # get (RGB) of pixel at location
-            #print('\t',newColor)
             colorDictionary[newColor] = None
         for color in colorDictionary:
             accompanyingColors = accompanyingColorPicker(newLocation, wheel,maxIterDistance,colorDictionary)
             colorDictionary[color] = accompanyingColors
     return colorDictionary
 
-#---DETERMINE ANALOGOUS COLORS-------------------------------------------------#
+#---DETERMINE-ACCOMPANYING-COLORS-------------------------------------------------#
 def accompanyingColorPicker(originalColorLocation, wheel, maxIterDistance,colorDictionary): # return format: [1Complement, 2-3 Triad, 4-8 Shades, 7-11Analogous]
     originalTheta = originalColorLocation[0]
     originalDistance = originalColorLocation[1]
@@ -84,22 +80,16 @@ def accompanyingColorPicker(originalColorLocation, wheel, maxIterDistance,colorD
             analogousList.append(analogousColor)
     return [complement,triad1,triad2,shadeList[0],shadeList[1],shadeList[2],shadeList[3],analogousList[0],analogousList[1],analogousList[2],analogousList[3]]
 
+#---IMPORT-DESIGNATED-COLOR-FROM-WHEEL-------------------------------------------------#
 def colorPicker(radAngle, distanceIterations,wheel): # uses the string color to set x,y to the appropriate values corresponding to the location in the color wheel
     x,y = (250,250)
     cosine = math.cos(radAngle)
     sine = math.sin(radAngle)
-    #print("cosine: ", cosine,"\tsine: ",sine)
     x += cosine * (pastFirstGray + distanceIterations * oneIterationDark)
     y += sine * (pastFirstGray + distanceIterations * oneIterationDark)
-    #print("X = ", x, "\tY = ", y)
     return(wheel[x,y]) # the list (RGB) of the input pixel CHANGE pix to wheel
 
-def initializeColors():
-    center,wheel,maxIterDistance = openFile('gamut.png')
-    colorDictionary = colorWheelImport(center, wheel,maxIterDistance)
-    print(str(colorDictionary))
-    return colorDictionary
-
+#---ALIGN-GIVEN-COLOR-TO-KEY-IN-DICTIONARY-------------------------------------------------#
 def closestColor(originalColor, colorDictionary):
     difference = 766
     matchColor = originalColor
@@ -113,13 +103,15 @@ def closestColor(originalColor, colorDictionary):
             matchColor = existingColor
             if difference == 0:
                 break
-    if (matchColor == originalColor)&(difference != 0) :
-        print(matchColor,": No match found\n")
-    if difference != 0:
-        print("\tImperfect Match Found: ",originalColor, " >> ", matchColor, " by ", difference)
-    if difference ==0:
-        print("Perfect Match Found: ",originalColor)
     return matchColor
 
-initializeColors()
+#---INITIALIZATION-------------------------------------------------#
+def initializeColors():
+    center,wheel,maxIterDistance = openFile('gamut.png')
+    colorDictionary = colorWheelImport(center, wheel,maxIterDistance)
+    print("Color Dictionary Initialized")
+    return colorDictionary
+
+#uncomment the following line to test initialization
+#initializeColors()
 
