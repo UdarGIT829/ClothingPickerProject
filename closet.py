@@ -6,8 +6,9 @@ Created on Wed Apr 29 14:20:09 2020
 @author: Bryan Toscano 'hyde'
 """
 
-import garment
+from garment import Garment
 import jsonpickle
+import csv
 import os.path
 from os import path
 
@@ -121,12 +122,19 @@ class Closet:
         
     #will return a Closet object
     def load(self):
-        if path.exists('mycloset.txt'):
-            file = open('mycloset.txt', 'r')
-            data = file.read()
-            closet = jsonpickle.decode(data)
-            file.close()
+        if path.exists('closet.csv'):
+            with open('closet.csv') as file:
+                reader = csv.reader(file, delimiter=",")
+                for row in reader:
+                    garment = Garment(garment_type=str(row[1]), name=str(row[0]))
+                    garment.changeColors(color0=row[2])
+                    if(not row[3]):
+                        garment.use()
+                    if(garment.garment_type == "top"):
+                        self.tops.append(Garment(garment))
+                    if(garment.garment_type == "bottom"):
+                        self.bottoms.append(Garment(garment))
+                    if(garment.garment_type == "shoe"):
+                        self.shoes.append(Garment(garment))
         else:
             print('Closet file does not exist!.')
-            closet = Closet()
-        return closet
