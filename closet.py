@@ -26,7 +26,7 @@ class Closet:
             self.tops.append(article)
         elif article.getGarment() == 'bottom':
             self.bottoms.append(article)
-        elif article.getGarment() == 'shoes':
+        elif article.getGarment() == 'shoe':
             self.shoes.append(article)
         else:
             print('Article of Clothing was not added successfully.')
@@ -87,7 +87,6 @@ class Closet:
         print('Shoes: ')
         for x in self.shoes:
             print(x.getName())
-            
 #---FUNCTIONS THAT WASH---------------------------------------------------------#
             
     #Sets all garments to clean = True 
@@ -122,19 +121,16 @@ class Closet:
         
     #will return a Closet object
     def load(self):
+        self.clear()
         if path.exists('closet.csv'):
             with open('closet.csv', encoding="utf8") as file:
                 reader = csv.reader(file, delimiter=",")
                 for row in reader:
+                    print("Reading Garment: " + str(row))
                     garment = Garment(garment_type=str(row[1]), name=str(row[0]))
                     garment.changeColors(color0=row[2])
-                    if(not row[3]):
+                    if(not bool(row[3])):
                         garment.use()
-                    if(garment.garment_type == "top"):
-                        self.tops.append(Garment(garment))
-                    if(garment.garment_type == "bottom"):
-                        self.bottoms.append(Garment(garment))
-                    if(garment.garment_type == "shoe"):
-                        self.shoes.append(Garment(garment))
+                    self.add(garment)
         else:
             print('Closet file does not exist!.')

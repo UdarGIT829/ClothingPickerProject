@@ -95,8 +95,15 @@ class Garment:
             print(self.name + ' is clean.')
         else:
             print(self.name + ' is dirty.')
-        return self.clean
+        return (not self.clean)
     
+    def getStatus(self):
+        returnstr = ""
+        if self.clean:
+            returnstr = "clean"
+        else:
+            returnstr = "dirty"
+        return returnstr
     #sets the clothes as usable and clean
     def wash(self):
         print(self.name + ' has been washed.')
