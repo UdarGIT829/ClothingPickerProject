@@ -123,7 +123,7 @@ class Closet:
     #will return a Closet object
     def load(self):
         if path.exists('closet.csv'):
-            with open('closet.csv') as file:
+            with open('closet.csv', encoding="utf8") as file:
                 reader = csv.reader(file, delimiter=",")
                 for row in reader:
                     garment = Garment(garment_type=str(row[1]), name=str(row[0]))
