@@ -16,6 +16,16 @@ def openFile(filename):# input string, return pillow image
     maxIterDistance = (int)((center[0]-pastFirstGray)/oneIterationDark)
     return (center, wheel, maxIterDistance)
 
+#---TYPE-CONVERSION-------------------------------------------------#
+def RGBtoString(color):
+    if( type(color)==type(tuple()) ):
+        color = ((str(color)).replace('(','')).replace(')','').replace(',','')
+    elif( type(color)==type(list()) ):
+        colorList = color
+        for index in range(0,len(colorList)):
+            colorList[index] = ((str(colorList[index])).replace('(','')).replace(')','').replace(',','')
+    return
+
 #---COLOR-DICTIONARY-CREATION--------------------------------------------------#
 def colorWheelImport(center, wheel,maxIterDistance): # using  pillow image, return new color dictionary
     denominator = 16
@@ -28,6 +38,8 @@ def colorWheelImport(center, wheel,maxIterDistance): # using  pillow image, retu
         for color in colorDictionary:
             accompanyingColors = accompanyingColorPicker(newLocation, wheel,maxIterDistance,colorDictionary)
             colorDictionary[color] = accompanyingColors
+            RGBtoString(color)
+            RGBtoString(accompanyingColors)
     return colorDictionary
 
 #---DETERMINE-ACCOMPANYING-COLORS-------------------------------------------------#
@@ -113,5 +125,5 @@ def initializeColors():
     return colorDictionary
 
 #uncomment the following line to test initialization
-#initializeColors()
+initializeColors()
 
