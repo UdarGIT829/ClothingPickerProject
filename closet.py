@@ -3,7 +3,7 @@
 """
 Created on Wed Apr 29 14:20:09 2020
 
-@author: Bryan Toscano 'hyde'
+@author: Bryan Toscano 'hyde' and Vijay DuggiralaVijay Duggirala
 """
 
 from garment import Garment
