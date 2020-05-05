@@ -122,7 +122,6 @@ def initializeColors():
     center,wheel,maxIterDistance = openFile('gamut.png')
     colorDictionary = colorWheelImport(center, wheel,maxIterDistance)
     print("Color Dictionary Initialized")
-    print(colorDictionary)
     return colorDictionary
 
 #uncomment the following line to test initialization
