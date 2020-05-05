@@ -13,6 +13,7 @@ from tkinter import font as tkfont
 from tkinter import messagebox as tkmessage
 from closet import Closet
 from garment import Garment
+import colors
 
 # MainApplication class - Inherits from main tkinter object
 # Main Application window that contains all the other classes(also windows) as variables and performs operations on them.
@@ -31,7 +32,7 @@ class MainApplication(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        for F in (HomeFrame, ClosetFrame):
+        for F in (HomeFrame, ClosetFrame, OutfitFrame):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -65,6 +66,7 @@ class HomeFrame(tk.Frame):
         tk.Label(menubox, text="Main Menu", font=controller.titleFont).pack(anchor=tk.N, side=tk.TOP, pady=30)
         closetButton = tk.Button(menubox, text="Browse Closet", font=controller.bodyFont, command=lambda: controller.show_frame("ClosetFrame"))
         closetButton.pack(anchor=tk.N, side = tk.TOP, pady = 5)
+        tk.Button(menubox, text="Match Outfits", font=controller.bodyFont, command=lambda: controller.show_frame("OutfitFrame")).pack(anchor=tk.N, side = tk.TOP, pady = 5)
 
         exitButton = tk.Button(menubox, text="Exit", font=controller.bodyFont, command=self.quit)
         exitButton.pack(anchor=tk.N, side = tk.TOP, pady = 5)
@@ -143,7 +145,76 @@ class ClosetFrame(tk.Frame):
             tempStr = str(""+shoe.getName()+", "+str(shoe.getStatus()))
             self.shoesList.insert(tk.END, tempStr)
         
+# OutfitFrame - Inherits from tkinter frame
+# Outfit Browser. This frame displays possible matching outfits from the garmets in the closet. 
+# Programmers: Vijay
+# Date: 5/04/2020
 
+class OutfitFrame(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        self.closet = Closet()
+        self.closet.load()
+        self.tops = self.closet.tops
+        self.bottoms = self.closet.bottoms
+        self.shoes = self.closet.shoes
+
+        self.colordict = dict()
+        self.outfits = list()
+
+        tk.Label(self, text="Calculated Outfits", font=controller.titleFont, justify=tk.CENTER).place(anchor=tk.N, relx=0.5, rely=0.01)
+        
+        BackButton = tk.Button(self, text="Back", font=controller.bodyFont, command=lambda: controller.show_frame("HomeFrame"))
+        BackButton.place(anchor=tk.NE,relx=0.07, rely=0.04)
+
+        mainSb = tk.Scrollbar(self)
+        mainSb.pack(side=tk.RIGHT, fill="y", padx=(0, 345), pady=243)
+        self.lbox = tk.Listbox(self, font=controller.bodyFont, yscrollcommand=mainSb.set, width=50, justify=tk.CENTER, selectmode=tk.SINGLE)
+        self.lbox.place(anchor=tk.CENTER, relx=0.5, rely=0.5)
+        mainSb.config(command=self.lbox.yview)
+        tk.Button(self, text="Outfit Info", font=controller.bodyFont, command=lambda: self.Selected()).place(anchor=tk.NE,relx=0.9, rely=0.9)
+    
+    def Selected(self):
+        if all(self.lbox.curselection()) or not self.outfits:
+            tk.messagebox.showerror("Error", "No Outfit Selected")
+            return
+    
+    def StrToTuple(self, myStr):
+        tup = tuple()
+        for token in myStr.split(","):
+            tup = tup+(int(token),)
+        return tup
+    
+    def GetBottomThatMatches(self, listOfColors):
+        listOfBottoms = list()
+        for col in listOfColors:
+            for bottom in self.bottoms:
+                bottomCol = bottom.colors[0].replace(',', '')
+                if str(bottomCol) == str(col):
+                    listOfBottoms.append(bottom)
+        return listOfBottoms
+    
+    def initialize(self):
+        self.lbox.delete(0, tk.END)
+        self.outfits = list()
+        print("Cleared List")
+        self.colordict = colors.initializeColors()
+        for shirt in self.tops:
+            sColor= shirt.colors[0]
+            sColor = tuple(self.StrToTuple(sColor))
+            Bottoms = self.GetBottomThatMatches(self.colordict[sColor])
+            if Bottoms:
+                for bottom in Bottoms:
+                    self.outfits.append(str(shirt.getName()) + " AND " +str(bottom.getName()) + " AND Converse White Shoes")
+        if not self.outfits:
+            self.lbox.insert(tk.END, "No Outfits Found")
+            print("FOUND NONE")
+        
+        for outfit in self.outfits:
+            self.lbox.insert(tk.END, outfit)
+        
 
 
 

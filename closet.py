@@ -128,7 +128,7 @@ class Closet:
                 for row in reader:
                     print("Reading Garment: " + str(row))
                     garment = Garment(garment_type=str(row[1]), name=str(row[0]))
-                    garment.changeColors(color0=row[2])
+                    garment.changeColors(color0=str(row[2]))
                     if(not bool(row[3])):
                         garment.use()
                     self.add(garment)

@@ -12,7 +12,7 @@ def openFile(filename):# input string, return pillow image
     im = Image.open('gamut.png') # Input image file, source: https://github.com/jacksongabbard/Python-Color-Gamut-Generator/blob/master/gamut.png
     wheel = im.load() # use pillow library to read the image into an object
     center = (250,250) # set center to be half of width and height (500px, 500px)
-    fileImported = True
+    # fileImported = True
     maxIterDistance = (int)((center[0]-pastFirstGray)/oneIterationDark)
     return (center, wheel, maxIterDistance)
 
@@ -125,5 +125,5 @@ def initializeColors():
     return colorDictionary
 
 #uncomment the following line to test initialization
-initializeColors()
+# initializeColors()
 

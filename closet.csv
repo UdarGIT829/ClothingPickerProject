@@ -1,4 +1,5 @@
-"Red Shirt",top,100 0 0,1
-"Green Shirt",top,0 100 0”,1
-"Black Jeans",bottom,0 0 0,1
-"Converse White Shoes",shoe,100 100 100,1
+"Red Shirt",top,"14, 0, 4",1
+"Green Shirt",top,"125, 0, 39",1
+"Jeans 1",bottom,"200, 255, 227",1
+"Jeans 2",bottom,"202, 221, 255",1
+"Converse White Shoes",shoe,"100, 100, 100",1
