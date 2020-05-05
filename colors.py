@@ -97,8 +97,8 @@ def colorPicker(radAngle, distanceIterations,wheel): # uses the string color to 
     x,y = (250,250)
     cosine = math.cos(radAngle)
     sine = math.sin(radAngle)
-    x += cosine * (pastFirstGray + distanceIterations * oneIterationDark)
-    y += sine * (pastFirstGray + distanceIterations * oneIterationDark)
+    x += cosine(radAngle) * (pastFirstGray + distanceIterations * oneIterationDark)
+    y += sine(radAngle) * (pastFirstGray + distanceIterations * oneIterationDark)
     return(wheel[x,y]) # the list (RGB) of the input pixel CHANGE pix to wheel
 
 #---ALIGN-GIVEN-COLOR-TO-KEY-IN-DICTIONARY-------------------------------------------------#
@@ -122,6 +122,7 @@ def initializeColors():
     center,wheel,maxIterDistance = openFile('gamut.png')
     colorDictionary = colorWheelImport(center, wheel,maxIterDistance)
     print("Color Dictionary Initialized")
+    print(colorDictionary)
     return colorDictionary
 
 #uncomment the following line to test initialization
